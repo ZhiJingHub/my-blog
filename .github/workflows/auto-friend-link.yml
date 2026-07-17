@@ -1,0 +1,219 @@
+name: Auto Friend Link
+
+on:
+  issues:
+    types: [opened, edited]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  process-friend-link:
+    runs-on: ubuntu-latest
+    if: contains(github.event.issue.labels.*.name, 'friend-link') || contains(github.event.issue.title, '[友链]')
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Parse issue body
+        id: parse
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = context.payload.issue.body || '';
+
+            // Extract field value between ### header and next ### or end
+            function extract(label) {
+              const regex = new RegExp(`### ${label}\\s*\\n([^#]*?)(?=\\n###|$)`, 's');
+              const match = body.match(regex);
+              if (!match) return '';
+              return match[1].trim().replace(/\r/g, '');
+            }
+
+            const name = extract('站点名称');
+            const url = extract('站点地址');
+            const avatar = extract('头像地址');
+            const description = extract('站点描述');
+            const backlink = extract('友链页面地址');
+
+            const data = { name, url, avatar, description, backlink };
+            console.log('Parsed data:', JSON.stringify(data, null, 2));
+
+            // Output each field
+            for (const [key, value] of Object.entries(data)) {
+              core.setOutput(key, value);
+            }
+
+      - name: Validate
+        id: validate
+        run: |
+          VALID=true
+          ERRORS=""
+
+          NAME="${{ steps.parse.outputs.name }}"
+          URL="${{ steps.parse.outputs.url }}"
+          DESCRIPTION="${{ steps.parse.outputs.description }}"
+          AVATAR="${{ steps.parse.outputs.avatar }}"
+          BACKLINK="${{ steps.parse.outputs.backlink }}"
+
+          # Required fields
+          if [ -z "$NAME" ]; then
+            ERRORS="${ERRORS}\n- 站点名称不能为空"
+            VALID=false
+          fi
+
+          if [ -z "$URL" ]; then
+            ERRORS="${ERRORS}\n- 站点地址不能为空"
+            VALID=false
+          fi
+
+          if [ -z "$DESCRIPTION" ]; then
+            ERRORS="${ERRORS}\n- 站点描述不能为空"
+            VALID=false
+          fi
+
+          # URL format
+          if [ -n "$URL" ] && [[ ! "$URL" =~ ^https?:// ]]; then
+            ERRORS="${ERRORS}\n- 站点地址格式无效（必须以 http:// 或 https:// 开头）"
+            VALID=false
+          fi
+
+          # Duplicate check (normalize trailing slash)
+          if [ -n "$URL" ]; then
+            NORMALIZED_URL="${URL%/}"
+            for existing in data/friends/*.json; do
+              if [ ! -f "$existing" ]; then
+                continue
+              fi
+              EXISTING_URL=$(jq -r '.url // empty' "$existing" 2>/dev/null)
+              if [ -n "$EXISTING_URL" ]; then
+                EXISTING_NORMALIZED="${EXISTING_URL%/}"
+                if [ "$NORMALIZED_URL" = "$EXISTING_NORMALIZED" ]; then
+                  EXISTING_NAME=$(jq -r '.name // "未知"' "$existing" 2>/dev/null)
+                  ERRORS="${ERRORS}\n- 站点地址已存在（来自友链：${EXISTING_NAME}）"
+                  VALID=false
+                fi
+              fi
+            done
+          fi
+
+          if [ "$VALID" = "true" ]; then
+            echo "valid=true" >> "$GITHUB_OUTPUT"
+            echo "✅ Validation passed"
+          else
+            echo "valid=false" >> "$GITHUB_OUTPUT"
+            printf '%b' "$ERRORS" > /tmp/errors.txt
+            echo "errors<<EOF" >> "$GITHUB_OUTPUT"
+            printf '%b' "$ERRORS" >> "$GITHUB_OUTPUT"
+            echo "EOF" >> "$GITHUB_OUTPUT"
+            echo "❌ Validation failed"
+          fi
+
+      - name: Comment on issue (invalid)
+        if: steps.validate.outputs.valid == 'false'
+        uses: actions/github-script@v7
+        env:
+          ERRORS: ${{ steps.validate.outputs.errors }}
+        with:
+          script: |
+            const errors = process.env.ERRORS;
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `## ❌ 友链申请校验失败\n\n发现以下问题：\n${errors}\n\n请修改 Issue 中的对应信息，系统会自动重新校验。`
+            });
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: ['invalid']
+            });
+
+      - name: Create friend link JSON and PR
+        if: steps.validate.outputs.valid == 'true'
+        id: create-pr
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          FRIEND_NAME: ${{ steps.parse.outputs.name }}
+          FRIEND_URL: ${{ steps.parse.outputs.url }}
+          FRIEND_AVATAR: ${{ steps.parse.outputs.avatar }}
+          FRIEND_DESC: ${{ steps.parse.outputs.description }}
+          FRIEND_BACKLINK: ${{ steps.parse.outputs.backlink }}
+          ISSUE_NUM: ${{ github.event.issue.number }}
+        run: |
+          # Generate filename from site name
+          SLUG=$(echo "$FRIEND_NAME" | tr ' ' '-' | tr -cd 'a-zA-Z0-9_-\p{Han}')
+          if [ -z "$SLUG" ]; then
+            SLUG="friend-${ISSUE_NUM}"
+          fi
+          FILENAME="${SLUG}.json"
+          FILEPATH="data/friends/${FILENAME}"
+
+          # Check if file already exists
+          if [ -f "$FILEPATH" ]; then
+            FILENAME="${SLUG}-${ISSUE_NUM}.json"
+            FILEPATH="data/friends/${FILENAME}"
+          fi
+
+          # Build JSON
+          JSON=$(jq -n \
+            --arg name "$FRIEND_NAME" \
+            --arg url "$FRIEND_URL" \
+            --arg avatar "$FRIEND_AVATAR" \
+            --arg desc "$FRIEND_DESC" \
+            --arg backlink "$FRIEND_BACKLINK" \
+            '{ name: $name, url: $url, description: $desc } +
+             (if $avatar != "" then { avatar: $avatar } else {} end) +
+             (if $backlink != "" then { backlink: $backlink } else {} end)')
+
+          echo "$JSON" | jq . > "$FILEPATH"
+
+          # Create branch and commit
+          BRANCH="friend-link/${SLUG}"
+          git checkout -b "$BRANCH"
+          git add "$FILEPATH"
+          git commit -m "friend-link: add ${FRIEND_NAME}"
+          git push origin "$BRANCH"
+
+          # Create PR
+          PR_URL=$(gh pr create \
+            --title "friend-link: ${FRIEND_NAME}" \
+            --body "Closes #${ISSUE_NUM}\n\n自动创建的友链 PR。\n\n- 站点：${FRIEND_NAME}\n- 地址：${FRIEND_URL}" \
+            --base main \
+            --head "$BRANCH")
+
+          echo "pr_url=${PR_URL}" >> "$GITHUB_OUTPUT"
+          echo "filename=${FILENAME}" >> "$GITHUB_OUTPUT"
+
+      - name: Auto merge PR
+        if: steps.validate.outputs.valid == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr merge "${{ steps.create-pr.outputs.pr_url }}" --squash --auto
+
+      - name: Comment on issue (success)
+        if: steps.validate.outputs.valid == 'true'
+        uses: actions/github-script@v7
+        env:
+          PR_URL: ${{ steps.create-pr.outputs.pr_url }}
+          FILENAME: ${{ steps.create-pr.outputs.filename }}
+        with:
+          script: |
+            const prUrl = process.env.PR_URL;
+            const filename = process.env.FILENAME;
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `## ✅ 友链申请已通过\n\n已自动创建友链文件 \`${filename}\` 并提交 PR：${prUrl}\n\nPR 将在 CI 通过后自动合并，合并后友链将在下次构建时生效。`
+            });
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: ['approved']
+            });
