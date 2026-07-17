@@ -1,30 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
-
-export interface PostStats {
-  wordCount: number;
-  readTime: number;
-  imageCount: number;
-}
-
-export interface PostMetadata {
-  title: string;
-  image?: string;
-  published: string;
-  pinned?: boolean;
-  description: string;
-  draft?: boolean;
-  updated?: string;
-  tags?: string[];
-  author?: string;
-  stats: PostStats;
-}
-
-export interface PostModule {
-  slug: string;
-  metadata: PostMetadata;
-}
+import type { PostMetadata, PostModule } from '@/lib/types/post';
 
 const DEFAULT_STATS = { wordCount: 0, readTime: 0, imageCount: 0 };
 
@@ -50,7 +27,7 @@ export function getAllPosts(): PostModule[] {
     if (!fs.existsSync(postFile)) continue;
 
     const fileContent = fs.readFileSync(postFile, 'utf-8');
-    const { data } = matter(fileContent);
+    const { data, content } = matter(fileContent);
 
     if (!data.title || !data.description || (!data.published && !data.date)) {
       console.warn(`[posts] Invalid metadata in ${postFile}, skipping`);
@@ -58,6 +35,11 @@ export function getAllPosts(): PostModule[] {
     }
 
     if (data.draft) continue;
+
+    // Calculate stats
+    const wordCount = content.replace(/[#*`\[\]()]/g, '').split(/\s+/).length;
+    const readTime = Math.ceil(wordCount / 200);
+    const imageCount = (content.match(/!\[.*?\]\(.*?\)/g) || []).length;
 
     const metadata: PostMetadata = {
       title: data.title,
@@ -69,10 +51,14 @@ export function getAllPosts(): PostModule[] {
       updated: data.updated,
       tags: data.tags,
       author: data.author,
-      stats: data.stats ? { ...DEFAULT_STATS, ...data.stats } : { ...DEFAULT_STATS }
+      stats: {
+        wordCount,
+        readTime,
+        imageCount
+      }
     };
 
-    posts.push({ slug, metadata });
+    posts.push({ slug, metadata, content });
   }
 
   return posts.sort((a, b) => {
