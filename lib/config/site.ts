@@ -3,7 +3,7 @@ export const siteConfig = {
   title: "ZhiJing's Blog",
   subtitle: "一个基于 Next.js 构建的现代博客",
   url: "https://iwexe.top",
-  icon: "/favicon.ico",
+  icon: "/favicon.svg",
   description: "Go with the flow.",
   keywords: ["blog", "nextjs", "技术博客", "静态博客"],
   lang: "zh-CN",
