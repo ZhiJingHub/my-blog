@@ -43,6 +43,7 @@ export const siteConfig = {
     categoryId: ""
   },
   navLinks: [
+    { label: "博客", icon: "mdi:post-outline", href: "/posts" },
     { label: "封面制作", icon: "mdi:image-edit", href: "/cover" },
     { label: "格式转换", icon: "mdi:image-sync", href: "/convert" },
     { label: "水印", icon: "mdi:watermark", href: "/watermark" },
