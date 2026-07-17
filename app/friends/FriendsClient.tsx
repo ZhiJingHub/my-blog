@@ -57,21 +57,24 @@ export default function FriendsClient({ friends }: FriendsClientProps) {
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto max-w-6xl px-4 py-6 sm:py-8">
-        <div className="mb-8 text-center">
+        <div className="mb-10 text-center">
           <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">友情链接</h1>
-          <p className="mt-2 text-lg text-muted-foreground">这里是我的朋友们，欢迎互相访问交流</p>
+          <p className="mt-3 text-base text-muted-foreground">这里是我的朋友们，欢迎互相访问交流</p>
         </div>
 
-        <Card className="mb-8 shadow-sm">
-          <CardHeader>
-            <CardTitle className="text-xl">申请友链</CardTitle>
+        <Card className="mb-10 rounded-xl border border-border/60 bg-card shadow-sm">
+          <CardHeader className="pb-4">
+            <CardTitle className="flex items-center gap-2 text-xl">
+              <Icon icon="mdi:link-variant" className="size-5 text-primary" />
+              申请友链
+            </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-8">
-            <p className="text-base text-muted-foreground">欢迎与我交换友链，提交 Issue 即可自动完成。</p>
+          <CardContent className="space-y-6">
+            <p className="text-sm text-muted-foreground">欢迎与我交换友链，提交 Issue 即可自动完成。</p>
 
             <div className="space-y-3">
-              <p className="text-base font-semibold">本站信息</p>
-              <div className="relative rounded-lg border bg-muted/30 p-5">
+              <p className="text-sm font-semibold">本站信息</p>
+              <div className="relative rounded-lg border border-border/60 bg-muted/30 p-4">
                 <Button
                   variant="ghost"
                   size="sm"
@@ -81,15 +84,15 @@ export default function FriendsClient({ friends }: FriendsClientProps) {
                   <Icon icon={copied === 'site' ? 'mdi:check' : 'mdi:content-copy'} className="mr-1 h-3.5 w-3.5" />
                   {copied === 'site' ? '已复制' : '复制'}
                 </Button>
-                <pre className="overflow-x-auto text-sm leading-relaxed text-foreground">
+                <pre className="overflow-x-auto text-xs leading-relaxed text-foreground">
                   <code>{siteJson}</code>
                 </pre>
               </div>
             </div>
 
             <div className="space-y-3">
-              <p className="text-base font-semibold">申请方式</p>
-              <div className="space-y-3 text-base text-muted-foreground">
+              <p className="text-sm font-semibold">申请方式</p>
+              <div className="space-y-2 text-sm text-muted-foreground">
                 <p>
                   1. 在你的站点添加本站友链（
                   <a
@@ -104,7 +107,7 @@ export default function FriendsClient({ friends }: FriendsClientProps) {
                 </p>
                 <p>2. 点击下方按钮提交友链申请 Issue，填写表单即可</p>
                 <p>3. 系统会自动校验并创建友链文件，校验通过后自动合并</p>
-                <div className="pt-2">
+                <div className="pt-3">
                   <a
                     href="https://github.com/ZhiJingHub/blog/issues/new?template=friend-link.yml"
                     target="_blank"
@@ -124,7 +127,7 @@ export default function FriendsClient({ friends }: FriendsClientProps) {
         <div>
           <h2 className="mb-6 text-xl font-bold">友链列表 ({friends.length})</h2>
           {friends.length === 0 ? (
-            <Card>
+            <Card className="rounded-xl border border-border/60">
               <CardContent className="py-12 text-center text-muted-foreground">暂无友链</CardContent>
             </Card>
           ) : (
@@ -139,14 +142,14 @@ export default function FriendsClient({ friends }: FriendsClientProps) {
                     className="block"
                     aria-label={friend.name}
                   >
-                    <Card className="h-full transition-all hover:shadow-md">
+                    <Card className="h-full rounded-xl border border-border/60 transition-all duration-200 hover:shadow-md hover:-translate-y-0.5">
                       <CardContent className="flex items-start gap-4 p-5">
                         <div className="relative h-14 w-14 shrink-0">
                           {friend.avatar ? (
                             <img
                               src={friend.avatar}
                               alt={friend.name}
-                              className="h-14 w-14 rounded-full object-cover"
+                              className="h-14 w-14 rounded-full object-cover ring-2 ring-border/40"
                               onError={(e) => {
                                 const target = e.target as HTMLImageElement;
                                 target.style.display = 'none';
@@ -158,7 +161,7 @@ export default function FriendsClient({ friends }: FriendsClientProps) {
                             />
                           ) : null}
                           <div
-                            className="flex h-14 w-14 items-center justify-center rounded-full bg-muted text-xl font-bold text-muted-foreground"
+                            className="flex h-14 w-14 items-center justify-center rounded-full bg-muted text-xl font-bold text-muted-foreground ring-2 ring-border/40"
                             hidden={!!friend.avatar}
                           >
                             {friend.name.charAt(0)}
