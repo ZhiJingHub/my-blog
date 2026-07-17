@@ -444,7 +444,7 @@ export default function ConvertClient() {
           <div className="inline-flex rounded-lg border bg-muted/30 p-1">
             <button
               onClick={() => setMode('single')}
-              className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm transition-all ${
+              className={`flex items-center gap-1.5 rounded-md px-4 py-2 text-sm transition-all ${
                 mode === 'single'
                   ? 'bg-background font-medium shadow-sm'
                   : 'text-muted-foreground hover:text-foreground'
@@ -455,7 +455,7 @@ export default function ConvertClient() {
             </button>
             <button
               onClick={() => setMode('batch')}
-              className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm transition-all ${
+              className={`flex items-center gap-1.5 rounded-md px-4 py-2 text-sm transition-all ${
                 mode === 'batch'
                   ? 'bg-background font-medium shadow-sm'
                   : 'text-muted-foreground hover:text-foreground'
@@ -526,7 +526,7 @@ export default function ConvertClient() {
             </div>
 
             {convertResult && (
-              <div className="rounded-xl border border-border bg-card p-4">
+              <div className="rounded-xl border border-border bg-card p-5 shadow-sm">
                 <div className="flex flex-col items-center gap-4">
                   <div className="relative w-full">
                     <img
@@ -562,7 +562,7 @@ export default function ConvertClient() {
                     </div>
                   </div>
 
-                  <Button onClick={handleDownload} className="w-full" size="lg">
+                  <Button onClick={handleDownload} className="w-full h-11 text-base font-medium" size="lg">
                     <Icon icon="mdi:download" className="mr-2 size-5" />
                     下载转换结果
                   </Button>
@@ -572,7 +572,7 @@ export default function ConvertClient() {
           </>
         ) : (
           <>
-            <div className="rounded-xl border border-border bg-card p-4">
+            <div className="rounded-xl border border-border bg-card p-5 shadow-sm">
               <h3 className="mb-3 flex items-center gap-2 text-sm font-medium">
                 <Icon icon="mdi:image-multiple" className="size-4" />
                 批量上传
@@ -672,10 +672,10 @@ export default function ConvertClient() {
           </div>
         )}
 
-        <div className="rounded-xl border border-border bg-card p-4">
+        <div className="rounded-xl border border-border bg-card p-5 shadow-sm">
           {mode === 'single' ? (
             <Button
-              className="w-full"
+              className="w-full h-11 text-base font-medium"
               size="lg"
               onClick={handleConvert}
               disabled={!sourceImage || isConverting}
@@ -695,7 +695,7 @@ export default function ConvertClient() {
           ) : (
             <>
               <Button
-                className="w-full"
+                className="w-full h-11 text-base font-medium"
                 size="lg"
                 onClick={handleBatchConvert}
                 disabled={batchItems.length === 0 || isBatchConverting}
@@ -746,7 +746,7 @@ export default function ConvertClient() {
                 onClick={() => setActiveTab(tab)}
                 className={`flex-1 px-4 py-3 text-sm transition-all ${
                   activeTab === tab
-                    ? 'bg-background border-b-2 border-primary font-medium text-primary'
+                    ? 'bg-background border-b-2 border-primary font-medium text-primary shadow-sm'
                     : 'text-muted-foreground hover:text-foreground hover:bg-background/50'
                 }`}
               >
