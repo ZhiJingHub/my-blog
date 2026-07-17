@@ -15,7 +15,7 @@ export default function Home() {
       <img
         src={siteConfig.bio.avatar}
         alt={`${siteConfig.bio.name}的头像`}
-        className="h-32 w-32 rounded-full"
+        className="avatar-img h-32 w-32 rounded-full"
       />
 
       <div className="text-center">
@@ -33,7 +33,7 @@ export default function Home() {
       <div className="w-full max-w-2xl mx-auto">
         <Card className="relative overflow-hidden">
           <CardHeader className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
-            <CardTitle className="text-center text-5xl font-black tracking-widest text-foreground/[0.06] dark:text-foreground/[0.08] select-none">
+            <CardTitle className="card-watermark text-center text-5xl font-black tracking-widest text-foreground select-none">
               社交
             </CardTitle>
           </CardHeader>
@@ -67,7 +67,7 @@ export default function Home() {
       <div className="w-full max-w-2xl mx-auto">
         <Card className="relative overflow-hidden">
           <CardHeader className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
-            <CardTitle className="text-center text-5xl font-black tracking-widest text-foreground/[0.06] dark:text-foreground/[0.08] select-none">
+            <CardTitle className="card-watermark text-center text-5xl font-black tracking-widest text-foreground select-none">
               导航
             </CardTitle>
           </CardHeader>
