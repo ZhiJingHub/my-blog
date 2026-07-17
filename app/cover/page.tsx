@@ -14,8 +14,8 @@ export const metadata: Metadata = {
 export default function CoverPage() {
   return (
     <div className="min-h-screen bg-background">
-      <div className="container mx-auto max-w-7xl px-4 pt-6 pb-12 sm:pt-8">
-        <div className="mb-6 flex items-center justify-between">
+      <div className="container mx-auto max-w-7xl px-4 py-6 sm:py-8">
+        <div className="mb-8">
           <a href="/" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground">
             ← 返回首页
           </a>

@@ -149,11 +149,11 @@ export default function CoverGenerator() {
           onPointerUp={bgInteraction.handlePointerUp}
           onWheel={bgInteraction.handleWheel}
         />
-        <div className="rounded-xl border border-border bg-card p-4">
+        <div className="rounded-xl border border-border bg-card p-5 shadow-sm">
           <Button
             onClick={exporter.doExport}
             disabled={activeRatios.length === 0 || exporter.isExporting}
-            className="w-full"
+            className="w-full h-11 text-base font-medium"
             size="lg"
           >
             <Icon icon={exporter.isExporting ? 'mdi:loading' : 'mdi:download'} className="mr-2 h-5 w-5" />
@@ -172,8 +172,8 @@ export default function CoverGenerator() {
       </div>
 
       <div className="cover-settings-col">
-        <div className="w-full">
-          <div className="flex w-full gap-2 border-b">
+        <div className="rounded-xl border border-border bg-card overflow-hidden">
+          <div className="flex w-full border-b bg-muted/30">
             {[
               { id: 'text', icon: 'mdi:format-text', label: '文本' },
               { id: 'icon', icon: 'mdi:image-outline', label: '图标' },
@@ -184,19 +184,19 @@ export default function CoverGenerator() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-1 px-3 py-2 text-sm transition-colors ${
+                className={`flex-1 flex items-center justify-center gap-1.5 px-2 py-3 text-sm transition-all ${
                   activeTab === tab.id
-                    ? 'border-b-2 border-primary font-medium text-primary'
-                    : 'text-muted-foreground hover:text-foreground'
+                    ? 'bg-background border-b-2 border-primary font-medium text-primary shadow-sm'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-background/50'
                 }`}
               >
                 <Icon icon={tab.icon} className="h-4 w-4" />
-                {tab.label}
+                <span className="hidden sm:inline">{tab.label}</span>
               </button>
             ))}
           </div>
 
-          <div className="space-y-3 pt-3">
+          <div className="p-4 space-y-4">
             {activeTab === 'text' && (
               <>
                 <TextSettings
@@ -339,16 +339,14 @@ export default function CoverGenerator() {
         .cover-settings-col {
           display: flex;
           flex-direction: column;
-          gap: 0.75rem;
           width: 100%;
           min-width: 0;
-          position: relative;
         }
 
         @media (min-width: 1024px) {
           .cover-layout {
             display: grid;
-            grid-template-columns: 1fr 400px;
+            grid-template-columns: 1fr 420px;
             grid-template-rows: auto 1fr;
             gap: 1.5rem;
             align-items: start;
