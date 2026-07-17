@@ -8,13 +8,6 @@ export const siteConfig = {
   keywords: ["blog", "nextjs", "技术博客", "静态博客"],
   lang: "zh-CN",
   ogImage: "/og-image.svg",
-  viewsApi: "https://views.iwexe.dpdns.org",
-  analytics: {
-    umami: {
-      src: "https://u.iwexe.top/script.js",
-      websiteId: "6eda9065-3954-4f1f-8dee-5729460f3e92"
-    }
-  },
   author: {
     name: "致靖",
     url: "https://iwexe.top"

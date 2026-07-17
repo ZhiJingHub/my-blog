@@ -55,13 +55,6 @@ export default function RootLayout({
     >
       <head>
         <link rel="icon" href={siteConfig.icon} />
-        {siteConfig.analytics.umami.src && siteConfig.analytics.umami.websiteId && (
-          <script
-            defer
-            src={siteConfig.analytics.umami.src}
-            data-website-id={siteConfig.analytics.umami.websiteId}
-          />
-        )}
       </head>
       <body className="min-h-full flex flex-col">
         <ThemeProvider>{children}</ThemeProvider>

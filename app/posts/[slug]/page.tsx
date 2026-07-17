@@ -2,7 +2,6 @@ import { notFound } from 'next/navigation';
 import { getPostBySlug, getAllPosts } from '@/lib/utils/posts';
 import { siteConfig } from '@/lib/config/site';
 import { formatDate } from '@/lib/utils/format';
-import PageViews from '@/components/PageViews';
 import PostContent from './PostContent';
 import type { Metadata } from 'next';
 
@@ -69,8 +68,6 @@ export default async function PostPage({ params }: PostPageProps) {
             <span className="flex items-center gap-1.5">
               <span>约 {post.metadata.stats.readTime} 分钟</span>
             </span>
-            <span className="text-border">•</span>
-            <PageViews pathname={`/posts/${slug}/`} className="flex items-center gap-1.5" />
           </div>
 
           {/* 标题 */}

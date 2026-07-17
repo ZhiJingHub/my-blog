@@ -3,7 +3,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { formatDate } from '@/lib/utils/format';
-import PageViews from './PageViews';
 import type { PostModule } from '@/lib/types/post';
 
 type PostCardProps = {
@@ -37,8 +36,6 @@ export default function PostCard({ post }: PostCardProps) {
               <span className="inline-block w-1.5 h-1.5 rounded-full bg-primary" />
               {formatDate(post.metadata.published)}
             </time>
-            <span className="text-border">•</span>
-            <PageViews pathname={`/posts/${post.slug}/`} className="flex items-center gap-1" />
           </div>
 
           {/* 标题 */}
