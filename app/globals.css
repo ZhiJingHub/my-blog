@@ -148,19 +148,6 @@
   box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
 }
 
-/* 卡片水印效果优化 */
-.card-watermark {
-  transition: opacity 0.3s ease;
-}
-
-.light .card-watermark {
-  opacity: 0.06;
-}
-
-.dark .card-watermark {
-  opacity: 0.08;
-}
-
 /* 按钮过渡优化 */
 button {
   transition: all 0.2s ease;
