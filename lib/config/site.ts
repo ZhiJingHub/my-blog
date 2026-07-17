@@ -48,7 +48,7 @@ export const siteConfig = {
     { label: "格式转换", icon: "mdi:image-sync", href: "/convert" },
     { label: "水印", icon: "mdi:watermark", href: "/watermark" },
     { label: "友链", icon: "mdi:link-variant", href: "/friends" },
-    { label: "统计", icon: "mdi:chart-line", href: "https://u.iwexe.top/share/iAHxxL5xADM8Ll43" }
+    { label: "统计", icon: "mdi:chart-line", href: "https://u.iwexe.top/share/WSuA9kxePFGSUVVD" }
   ] as const
 }
 
