@@ -12,7 +12,7 @@ export const siteConfig = {
   analytics: {
     umami: {
       src: "https://u.iwexe.top/script.js",
-      websiteId: "6e7ed14d-e59f-46ea-9bf4-efd7190d066c"
+      websiteId: "6eda9065-3954-4f1f-8dee-5729460f3e92"
     }
   },
   author: {
