@@ -20,6 +20,12 @@ export const metadata: Metadata = {
   description: siteConfig.description,
   keywords: siteConfig.keywords,
   metadataBase: new URL(siteConfig.url),
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: 'https://iwexe.top/avatar.svg', type: 'image/svg+xml' }
+    ]
+  },
   openGraph: {
     siteName: siteConfig.title,
     locale: siteConfig.lang,
@@ -55,7 +61,6 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
-        <link rel="icon" href={siteConfig.icon} />
         <script
           defer
           src={siteConfig.analytics.umami.src}
