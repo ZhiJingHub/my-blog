@@ -133,14 +133,6 @@
 }
 
 /* 头像样式优化 */
-.avatar-img {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.avatar-img:hover {
-  transform: scale(1.05);
-}
-
 .light .avatar-img {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
