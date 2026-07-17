@@ -3,7 +3,6 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { siteConfig } from "@/lib/config/site";
 import { Icon } from "@iconify/react";
 import { ThemeToggle } from "@/components/theme-provider";
-import { PageViews } from "@/components/page-views";
 
 export default function Home() {
   return (
@@ -20,13 +19,7 @@ export default function Home() {
 
       <div className="text-center">
         <h1 className="mb-2 text-4xl font-bold">{siteConfig.bio.name}</h1>
-        <p className="mb-2 text-lg text-muted-foreground">{siteConfig.bio.bio}</p>
-        <PageViews
-          pathname="/"
-          prefix="您是第 "
-          suffix=" 位访问本站的访客"
-          className="text-sm text-muted-foreground"
-        />
+        <p className="text-lg text-muted-foreground">{siteConfig.bio.bio}</p>
       </div>
 
       {/* 社交链接 */}
