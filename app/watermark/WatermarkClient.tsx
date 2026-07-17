@@ -205,20 +205,29 @@ export default function WatermarkClient() {
 
           {sourceImage ? (
             <div className="flex w-full flex-col items-center gap-4">
-              <div className="relative w-full">
+              <div className="relative w-full rounded-xl overflow-hidden border border-border">
                 {previewUrl ? (
-                  <img src={previewUrl} alt="水印预览" className="mx-auto max-h-[350px] rounded-lg object-contain" />
+                  <img src={previewUrl} alt="水印预览" className="mx-auto max-h-[350px] w-full object-contain bg-muted/30" />
                 ) : (
-                  <img src={sourceImage.url} alt="原图预览" className="mx-auto max-h-[350px] rounded-lg object-contain" />
+                  <img src={sourceImage.url} alt="原图预览" className="mx-auto max-h-[350px] w-full object-contain bg-muted/30" />
                 )}
                 <Badge variant={previewUrl ? 'default' : 'secondary'} className="absolute left-2 top-2">
                   {previewUrl ? '水印效果' : '原图'}
                 </Badge>
               </div>
               <div className="flex flex-wrap items-center justify-center gap-4 text-sm text-muted-foreground">
-                <span>{sourceImage.file.name}</span>
-                <span>{sourceImage.width} × {sourceImage.height}</span>
-                <span>{formatFileSize(sourceImage.file.size)}</span>
+                <span className="flex items-center gap-1">
+                  <Icon icon="mdi:file-image" className="size-4" />
+                  {sourceImage.file.name}
+                </span>
+                <span className="flex items-center gap-1">
+                  <Icon icon="mdi:resize" className="size-4" />
+                  {sourceImage.width} × {sourceImage.height}
+                </span>
+                <span className="flex items-center gap-1">
+                  <Icon icon="mdi:harddisk" className="size-4" />
+                  {formatFileSize(sourceImage.file.size)}
+                </span>
               </div>
             </div>
           ) : (
@@ -278,7 +287,7 @@ export default function WatermarkClient() {
       </div>
 
       <div className="watermark-settings-col">
-        <div className="settings-card">
+        <div className="settings-card shadow-sm">
           <h3 className="settings-title">
             <Icon icon="mdi:plus-circle" className="size-4" />
             添加水印
@@ -303,7 +312,7 @@ export default function WatermarkClient() {
           </div>
         ) : (
           watermarks.map((watermark) => (
-            <div key={watermark.id} className={`settings-card ${watermark.enabled ? '' : 'opacity-60'}`}>
+            <div key={watermark.id} className={`settings-card shadow-sm ${watermark.enabled ? '' : 'opacity-60'}`}>
               <div className="flex items-center justify-between">
                 <h3 className="settings-title mb-0">
                   <Icon icon={watermark.type === 'text' ? 'mdi:format-text' : 'mdi:image'} className="size-4" />
