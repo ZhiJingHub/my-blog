@@ -34,46 +34,58 @@ export default function BlogPage() {
             <p className="text-sm text-muted-foreground">还没有文章</p>
           </div>
         ) : (
-          <div className="flex flex-col gap-4">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {posts.map((post) => (
               <Link
                 key={post.slug}
                 href={`/posts/${post.slug}`}
-                className="group flex overflow-hidden rounded-lg border border-border bg-card transition-all hover:border-foreground/20 hover:shadow-sm"
+                className="group flex flex-col overflow-hidden rounded-xl border border-border bg-card transition-all hover:border-foreground/20 hover:shadow-md"
               >
-                {/* 左侧封面图 */}
-                <div className="relative h-32 w-40 shrink-0 sm:h-36 sm:w-48">
+                {/* 封面图 */}
+                <div className="relative aspect-video w-full overflow-hidden bg-muted">
                   {post.cover ? (
                     <img
                       src={post.cover}
                       alt={post.title}
-                      className="size-full object-cover transition-transform group-hover:scale-105"
+                      className="size-full object-cover transition-transform duration-300 group-hover:scale-105"
                     />
                   ) : (
-                    <div className="flex size-full items-center justify-center bg-muted">
-                      <Icon icon="mdi:image-outline" className="size-10 text-muted-foreground/50" />
+                    <div className="flex size-full items-center justify-center">
+                      <Icon icon="mdi:image-outline" className="size-12 text-muted-foreground/30" />
                     </div>
                   )}
                 </div>
 
-                {/* 右侧内容 */}
-                <div className="flex flex-1 flex-col justify-center px-5 py-4">
-                  {/* 日期 */}
-                  <time className="text-xs font-medium text-muted-foreground" dateTime={post.date}>
-                    {post.date}
-                  </time>
+                {/* 内容区 */}
+                <div className="flex flex-1 flex-col p-5">
+                  {/* 标签 */}
+                  {post.tags && post.tags.length > 0 && (
+                    <div className="mb-3">
+                      <span className="inline-block rounded-full bg-muted px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
+                        {post.tags[0]}
+                      </span>
+                    </div>
+                  )}
 
                   {/* 标题 */}
-                  <h2 className="mt-2 text-base font-bold leading-tight tracking-tight transition-colors group-hover:text-foreground/70 line-clamp-2">
+                  <h2 className="text-lg font-bold leading-tight tracking-tight transition-colors group-hover:text-foreground/70 line-clamp-2">
                     {post.title}
                   </h2>
 
                   {/* 描述 */}
                   {post.description && (
-                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground line-clamp-2">
+                    <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground line-clamp-3">
                       {post.description}
                     </p>
                   )}
+
+                  {/* 日期 */}
+                  <time
+                    className="mt-4 text-xs font-medium text-muted-foreground/70"
+                    dateTime={post.date}
+                  >
+                    {post.date}
+                  </time>
                 </div>
               </Link>
             ))}
