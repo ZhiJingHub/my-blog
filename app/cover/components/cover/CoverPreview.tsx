@@ -1,6 +1,7 @@
 'use client';
 
 import { hexToRgba } from '@/lib/utils/color';
+import { sanitizeSvg } from '@/lib/utils/sanitize-svg';
 
 type Ratio = { label: string; w: number; h: number; checked: boolean };
 
@@ -192,11 +193,11 @@ export default function CoverPreview({
                   }}
                 >
                   {localIcon ? (
-                    <img src={localIcon} style={{ width: '100%', height: '100%', objectFit: 'contain' }} alt="Local Icon" />
+                    <img src={localIcon} style={{ width: '100%', height: '100%', objectFit: 'contain' }} alt="本地图标" />
                   ) : (
                     <div
                       className="icon-svg-box"
-                      dangerouslySetInnerHTML={{ __html: iconSvg }}
+                      dangerouslySetInnerHTML={{ __html: sanitizeSvg(iconSvg) }}
                     />
                   )}
                 </div>
