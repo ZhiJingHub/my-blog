@@ -23,6 +23,18 @@ function rehypeCodeLanguage() {
   }
 }
 
+// 插件：移除 script 标签（rehype-pretty-code 可能注入）
+function rehypeRemoveScripts() {
+  return (tree: any) => {
+    visit(tree, (node: any, index: any, parent: any) => {
+      if (node.tagName === "script" && parent && typeof index === "number") {
+        parent.children.splice(index, 1)
+        return index
+      }
+    })
+  }
+}
+
 const rehypePrettyCodeOptions = {
   theme: {
     dark: "github-dark",
@@ -44,6 +56,7 @@ export async function MDXContent({ source }: { source: string }) {
             rehypeSlug,
             [rehypePrettyCode, rehypePrettyCodeOptions],
             rehypeCodeLanguage,
+            rehypeRemoveScripts,
           ],
         },
       }}
