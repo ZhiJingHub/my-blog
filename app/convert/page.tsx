@@ -1,6 +1,10 @@
 import { siteConfig } from '@/lib/config/site';
-import ConvertClient from './ConvertClient';
+import dynamic from 'next/dynamic';
 import type { Metadata } from 'next';
+
+const ConvertClient = dynamic(() => import('./ConvertClient'), {
+  loading: () => <div className="flex h-96 items-center justify-center"><div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" /></div>,
+});
 
 export const metadata: Metadata = {
   title: `图片格式转换 - ${siteConfig.title}`,

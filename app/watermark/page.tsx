@@ -1,6 +1,10 @@
 import { siteConfig } from '@/lib/config/site';
-import WatermarkClient from './WatermarkClient';
+import dynamic from 'next/dynamic';
 import type { Metadata } from 'next';
+
+const WatermarkClient = dynamic(() => import('./WatermarkClient'), {
+  loading: () => <div className="flex h-96 items-center justify-center"><div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" /></div>,
+});
 
 export const metadata: Metadata = {
   title: `图片水印 - ${siteConfig.title}`,

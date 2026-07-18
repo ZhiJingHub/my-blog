@@ -1,6 +1,10 @@
 import { siteConfig } from '@/lib/config/site';
-import CoverGenerator from './components/CoverGenerator';
+import dynamic from 'next/dynamic';
 import type { Metadata } from 'next';
+
+const CoverGenerator = dynamic(() => import('./components/CoverGenerator'), {
+  loading: () => <div className="flex h-96 items-center justify-center"><div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" /></div>,
+});
 
 export const metadata: Metadata = {
   title: `封面制作 - ${siteConfig.title}`,

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { siteConfig } from "@/lib/config/site";
@@ -61,10 +62,10 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
-        <script
-          defer
+        <Script
           src={siteConfig.analytics.umami.src}
           data-website-id={siteConfig.analytics.umami.websiteId}
+          strategy="afterInteractive"
         />
         {/* 主题初始化：阻塞渲染前设置 dark 类，防止页面切换闪屏 */}
         <script
