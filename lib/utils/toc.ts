@@ -1,5 +1,6 @@
 import fs from "fs"
 import path from "path"
+import GithubSlugger from "github-slugger"
 
 export interface TocItem {
   id: string
@@ -7,10 +8,11 @@ export interface TocItem {
   level: number
 }
 
-// 从 markdown 内容中提取 h1-h3 标题，生成 slug 与 rehype-slug 保持一致
+// 从 markdown 内容中提取 h1-h3 标题，使用 github-slugger 生成与 rehype-slug 完全一致的锚点 id
 export function extractToc(content: string): TocItem[] {
   const items: TocItem[] = []
   const lines = content.split("\n")
+  const slugger = new GithubSlugger()
 
   for (const line of lines) {
     const match = line.match(/^(#{1,3})\s+(.+)$/)
@@ -18,21 +20,13 @@ export function extractToc(content: string): TocItem[] {
 
     const level = match[1].length
     const text = match[2]
-      .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1") // 去除链接语法
-      .replace(/[*_`~]/g, "") // 去除格式标记
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+      .replace(/[*_`~]/g, "")
       .trim()
 
     if (!text) continue
 
-    // 与 github-slugger 行为一致：小写、去特殊字符、空格转连字符
-    const id = text
-      .toLowerCase()
-      .replace(/[^\p{L}\p{N}\s-]/gu, "")
-      .replace(/\s+/g, "-")
-      .replace(/-+/g, "-")
-      .replace(/^-|-$/g, "")
-
-    items.push({ id, text, level })
+    items.push({ id: slugger.slug(text), text, level })
   }
 
   return items

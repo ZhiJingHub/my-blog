@@ -3,6 +3,8 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { siteConfig } from "@/lib/config/site";
 import { Icon } from "@iconify/react";
 import { ThemeToggle } from "@/components/theme-provider";
+import Link from "next/link";
+import Image from "next/image";
 
 export default function Home() {
   return (
@@ -11,10 +13,13 @@ export default function Home() {
         <ThemeToggle />
       </div>
 
-      <img
+      <Image
         src={siteConfig.bio.avatar}
         alt={`${siteConfig.bio.name}的头像`}
-        className="avatar-img h-32 w-32 rounded-full"
+        width={128}
+        height={128}
+        className="avatar-img h-32 w-32 rounded-full object-cover"
+        priority
       />
 
       <div className="text-center">
@@ -68,18 +73,21 @@ export default function Home() {
             <div className="flex flex-wrap gap-3 justify-center">
               {siteConfig.navLinks.map((link) => {
                 const isExternal = link.href.startsWith("http");
-                return (
-                  <a
-                    key={link.label}
-                    href={link.href}
-                    {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                  >
-                    <Button variant="outline" className="flex items-center gap-2">
-                      <Icon icon={link.icon} className="h-5 w-5" />
-                      {link.label}
-                      {isExternal && <Icon icon="mdi:open-in-new" className="h-3.5 w-3.5 opacity-50" />}
-                    </Button>
+                const inner = (
+                  <Button variant="outline" className="flex items-center gap-2">
+                    <Icon icon={link.icon} className="h-5 w-5" />
+                    {link.label}
+                    {isExternal && <Icon icon="mdi:open-in-new" className="h-3.5 w-3.5 opacity-50" />}
+                  </Button>
+                );
+                return isExternal ? (
+                  <a key={link.label} href={link.href} target="_blank" rel="noopener noreferrer">
+                    {inner}
                   </a>
+                ) : (
+                  <Link key={link.label} href={link.href}>
+                    {inner}
+                  </Link>
                 );
               })}
             </div>
