@@ -5,6 +5,20 @@ import Link from "next/link"
 import { Icon } from "@iconify/react"
 import type { Post } from "@/lib/types/post"
 
+function highlightText(text: string, query: string) {
+  if (!query) return text
+  const parts = text.split(new RegExp(`(${query})`, "gi"))
+  return parts.map((part, i) =>
+    part.toLowerCase() === query.toLowerCase() ? (
+      <mark key={i} className="rounded bg-yellow-200 px-0.5 dark:bg-yellow-800 dark:text-yellow-100">
+        {part}
+      </mark>
+    ) : (
+      part
+    )
+  )
+}
+
 export function BlogList({ posts }: { posts: Post[] }) {
   const [search, setSearch] = useState("")
 
@@ -76,13 +90,13 @@ export function BlogList({ posts }: { posts: Post[] }) {
 
                 {/* 标题 */}
                 <h2 className="text-sm font-bold leading-tight tracking-tight transition-colors group-hover:text-foreground/70 line-clamp-2">
-                  {post.title}
+                  {highlightText(post.title, search)}
                 </h2>
 
                 {/* 描述 */}
                 {post.description && (
                   <p className="mt-1.5 flex-1 text-xs leading-relaxed text-muted-foreground line-clamp-2">
-                    {post.description}
+                    {highlightText(post.description, search)}
                   </p>
                 )}
 
