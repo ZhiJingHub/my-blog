@@ -1,8 +1,9 @@
 import fs from 'fs';
 import path from 'path';
+import { cache } from 'react';
 import type { FriendLink } from '@/lib/types/friend';
 
-export function getAllFriends(): FriendLink[] {
+export const getAllFriends = cache((): FriendLink[] => {
   const friendsDir = path.join(process.cwd(), 'data', 'friends');
 
   if (!fs.existsSync(friendsDir)) {
@@ -18,4 +19,4 @@ export function getAllFriends(): FriendLink[] {
   });
 
   return friends.sort((a, b) => a.name.localeCompare(b.name, 'zh-CN'));
-}
+});

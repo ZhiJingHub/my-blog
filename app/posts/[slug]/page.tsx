@@ -63,7 +63,7 @@ export default async function PostPage({ params }: PostPageProps) {
 
             {/* 日期 */}
             <time className="mt-3 block text-sm text-muted-foreground" dateTime={post.date}>
-              {post.date}
+              {new Date(post.date).toLocaleDateString("zh-CN", { year: "numeric", month: "long", day: "numeric" })}
             </time>
           </header>
 
