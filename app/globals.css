@@ -150,16 +150,55 @@ button {
 .prose pre {
   border-radius: var(--radius-lg);
   border: 1px solid hsl(var(--border));
+  padding: 1rem 0;
+  margin: 1.5rem 0;
+  background: hsl(var(--muted)) !important;
 }
 
 .prose pre[data-theme] {
-  background-color: hsl(var(--muted)) !important;
+  background: hsl(var(--muted)) !important;
 }
 
 .dark .prose pre[data-theme] {
-  background-color: hsl(var(--muted)) !important;
+  background: hsl(var(--muted)) !important;
 }
 
+/* 代码块语言标签 */
+.prose pre[data-language]::before {
+  content: attr(data-language);
+  display: block;
+  padding: 0 1rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: hsl(var(--muted-foreground));
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* 代码行 */
+.prose [data-line] {
+  padding: 0 1rem;
+  border-left: 2px solid transparent;
+}
+
+.prose [data-line]:hover {
+  background: hsl(var(--accent) / 0.5);
+}
+
+/* 高亮行 */
+.prose [data-highlighted-line] {
+  background: hsl(var(--accent)) !important;
+  border-left-color: hsl(var(--primary));
+}
+
+/* 高亮字符 */
+.prose [data-highlighted-chars] {
+  background: hsl(var(--accent));
+  border-radius: var(--radius-sm);
+  padding: 0.1em 0.2em;
+}
+
+/* 行号 */
 .prose code[data-line-numbers] {
   counter-reset: line;
 }
@@ -172,24 +211,17 @@ button {
   margin-right: 1rem;
   text-align: right;
   color: hsl(var(--muted-foreground));
-  opacity: 0.6;
+  opacity: 0.5;
+  font-size: 0.875em;
 }
 
-.prose [data-line] {
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+/* 代码块内代码 */
+.prose pre code {
+  font-size: 0.875rem;
+  line-height: 1.7;
 }
 
-.prose [data-highlighted-line] {
-  background-color: hsl(var(--accent));
-}
-
-.prose [data-highlighted-chars] {
-  background-color: hsl(var(--accent));
-  border-radius: var(--radius-sm);
-  padding: 0.1em 0.2em;
-}
-
+/* 行内代码 */
 .prose code::before,
 .prose code::after {
   content: "";
@@ -197,10 +229,11 @@ button {
 
 .prose code:not(pre code) {
   background: hsl(var(--muted));
-  padding: 0.15em 0.4em;
+  padding: 0.2em 0.4em;
   border-radius: var(--radius-sm);
   font-size: 0.875em;
   border: 1px solid hsl(var(--border));
+  font-weight: 500;
 }
 
 .prose blockquote {
