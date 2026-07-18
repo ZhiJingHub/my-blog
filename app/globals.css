@@ -196,6 +196,15 @@ button {
     inset 0 1px 0 oklch(1 0 0 / 3%);
 }
 
+/* shiki 双主题颜色：通过 CSS 变量消费 --shiki-light / --shiki-dark */
+.prose pre span[style*="--shiki-light"] {
+  color: var(--shiki-light);
+}
+
+.dark .prose pre span[style*="--shiki-dark"] {
+  color: var(--shiki-dark);
+}
+
 /* 代码块头部：语言标签 */
 .prose pre[data-language]::before {
   content: attr(data-language);
@@ -225,6 +234,11 @@ button {
   font-size: 0.8125rem;
   line-height: 1.75;
   font-family: var(--font-mono);
+  color: oklch(0.35 0.01 260);
+}
+
+.dark .prose pre code {
+  color: oklch(0.75 0.01 260);
 }
 
 /* 代码行 */
