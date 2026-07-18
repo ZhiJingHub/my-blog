@@ -181,10 +181,10 @@ button {
 .prose pre {
   position: relative !important;
   border-radius: var(--radius-lg) !important;
-  border: 1px solid hsl(var(--border)) !important;
+  border: 1px solid var(--border) !important;
   padding: 0 !important;
   margin: 1.75rem 0 !important;
-  background: hsl(var(--muted)) !important;
+  background: var(--muted) !important;
   overflow: hidden !important;
 }
 
@@ -213,11 +213,11 @@ button {
   padding: 0.5rem 1rem;
   font-size: 0.7rem;
   font-weight: 600;
-  color: hsl(var(--muted-foreground));
+  color: var(--muted-foreground);
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  border-bottom: 1px solid hsl(var(--border));
-  background: hsl(var(--muted) / 0.6);
+  border-bottom: 1px solid var(--border);
+  background: color-mix(in oklch, var(--muted) 60%, transparent);
   font-family: var(--font-sans);
 }
 
@@ -249,7 +249,7 @@ button {
 }
 
 .prose [data-line]:hover {
-  background: hsl(var(--accent) / 0.4);
+  background: color-mix(in oklch, var(--accent) 40%, transparent);
 }
 
 .dark .prose [data-line]:hover {
@@ -258,8 +258,8 @@ button {
 
 /* 高亮行 */
 .prose [data-highlighted-line] {
-  background: hsl(var(--accent) / 0.7) !important;
-  border-left-color: hsl(var(--primary));
+  background: color-mix(in oklch, var(--accent) 70%, transparent) !important;
+  border-left-color: var(--primary);
 }
 
 .dark .prose [data-highlighted-line] {
@@ -269,10 +269,10 @@ button {
 
 /* 高亮字符 */
 .prose [data-highlighted-chars] {
-  background: hsl(var(--accent));
+  background: var(--accent);
   border-radius: var(--radius-sm);
   padding: 0.1em 0.25em;
-  box-shadow: 0 0 0 1px hsl(var(--border));
+  box-shadow: 0 0 0 1px var(--border);
 }
 
 .dark .prose [data-highlighted-chars] {
@@ -292,7 +292,7 @@ button {
   width: 2rem;
   margin-right: 1rem;
   text-align: right;
-  color: hsl(var(--muted-foreground));
+  color: var(--muted-foreground);
   opacity: 0.4;
   font-size: 0.75rem;
   user-select: none;
@@ -309,13 +309,13 @@ button {
 }
 
 .prose code:not(pre code) {
-  background: hsl(var(--muted));
+  background: var(--muted);
   padding: 0.15em 0.4em;
   border-radius: var(--radius-sm);
   font-size: 0.85em;
-  border: 1px solid hsl(var(--border));
+  border: 1px solid var(--border);
   font-weight: 500;
-  color: hsl(var(--foreground));
+  color: var(--foreground);
 }
 
 .dark .prose code:not(pre code) {
@@ -325,7 +325,7 @@ button {
 }
 
 .prose blockquote {
-  border-left-color: hsl(var(--border));
+  border-left-color: var(--border);
 }
 
 .dark .prose blockquote {
