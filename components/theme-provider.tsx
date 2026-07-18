@@ -40,7 +40,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     document.documentElement.classList.toggle('dark', isDark)
     document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light')
     const meta = document.querySelector('meta[name="theme-color"]')
-    if (meta) meta.setAttribute('content', isDark ? '#0a0a0a' : '#ffffff')
+    if (meta) meta.setAttribute('content', isDark ? '#1a1b22' : '#fefefe')
 
     localStorage.setItem('theme', mode)
   }, [mode, mounted])
@@ -54,7 +54,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       document.documentElement.classList.toggle('dark', isDark)
       document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light')
       const meta = document.querySelector('meta[name="theme-color"]')
-      if (meta) meta.setAttribute('content', isDark ? '#0a0a0a' : '#ffffff')
+      if (meta) meta.setAttribute('content', isDark ? '#1a1b22' : '#fefefe')
     }
 
     mq.addEventListener('change', handler)
