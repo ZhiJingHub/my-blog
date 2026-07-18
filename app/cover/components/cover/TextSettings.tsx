@@ -9,6 +9,17 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Icon } from '@iconify/react';
 import { useState, useEffect } from 'react';
 
+interface FontData {
+  family: string;
+  fullName: string;
+  postscriptName: string;
+  style: string;
+}
+
+interface WindowWithLocalFonts extends Window {
+  queryLocalFonts(): Promise<FontData[]>;
+}
+
 type TextSettingsProps = {
   leftText: string;
   setLeftText: (v: string) => void;
@@ -61,9 +72,9 @@ export default function TextSettings({
     setFontApiSupported(true);
     setIsLoadingFonts(true);
     try {
-      const fonts = await (window as any).queryLocalFonts();
+      const fonts = await (window as unknown as WindowWithLocalFonts).queryLocalFonts();
       const fontNames = new Set<string>();
-      fonts.forEach((font: any) => fontNames.add(font.family));
+      fonts.forEach((font: FontData) => fontNames.add(font.family));
       setSystemFonts(Array.from(fontNames).sort());
     } catch (error) {
       console.error('获取系统字体失败:', error);

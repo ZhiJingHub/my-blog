@@ -32,8 +32,3 @@ export function getPostBySlug(slug: string): Post | null {
     ...(data as PostMeta),
   }
 }
-
-export function isMdxFile(slug: string): boolean {
-  const mdxPath = path.join(postsDir, `${slug}.mdx`)
-  return fs.existsSync(mdxPath)
-}

@@ -6,17 +6,25 @@ import { visit } from "unist-util-visit"
 
 const mdxComponents = {}
 
+interface Element {
+  type: "element"
+  tagName: string
+  properties?: Record<string, unknown>
+  children?: unknown[]
+}
+
 // 插件：为 pre 添加 data-language 属性
 function rehypeCodeLanguage() {
-  return (tree: any) => {
-    visit(tree, "element", (node: any) => {
-      if (node.tagName === "pre" && node.children?.[0]?.tagName === "code") {
-        const code = node.children[0]
-        const className = code.properties?.className?.[0] || ""
+  return (tree: unknown) => {
+    visit(tree as Parameters<typeof visit>[0], "element", (node) => {
+      const el = node as unknown as Element
+      if (el.tagName === "pre" && (el.children?.[0] as Element)?.tagName === "code") {
+        const code = el.children![0] as Element
+        const className = (code.properties?.className as string[])?.[0] || ""
         const lang = className.replace("language-", "")
         if (lang) {
-          node.properties = node.properties || {}
-          node.properties["data-language"] = lang
+          el.properties = el.properties || {}
+          el.properties["data-language"] = lang
         }
       }
     })
@@ -25,10 +33,11 @@ function rehypeCodeLanguage() {
 
 // 插件：移除 script 标签（rehype-pretty-code 可能注入）
 function rehypeRemoveScripts() {
-  return (tree: any) => {
-    visit(tree, (node: any, index: any, parent: any) => {
-      if (node.tagName === "script" && parent && typeof index === "number") {
-        parent.children.splice(index, 1)
+  return (tree: unknown) => {
+    visit(tree as Parameters<typeof visit>[0], (node, index, parent) => {
+      const el = node as unknown as Element
+      if (el.type === "element" && el.tagName === "script" && parent && typeof index === "number") {
+        (parent as { children: unknown[] }).children.splice(index, 1)
         return index
       }
     })

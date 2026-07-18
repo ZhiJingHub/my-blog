@@ -3,7 +3,6 @@ export interface LoadedImage {
   name: string;
   url: string;
   img: HTMLImageElement;
-  image: HTMLImageElement;
   width: number;
   height: number;
 }
@@ -18,7 +17,6 @@ export function loadImage(file: File): Promise<LoadedImage> {
         name: file.name,
         url,
         img,
-        image: img,
         width: img.naturalWidth,
         height: img.naturalHeight
       });

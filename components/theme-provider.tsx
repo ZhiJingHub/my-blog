@@ -1,8 +1,24 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useState } from 'react'
 
 type ThemeMode = 'light' | 'dark' | 'system'
+
+type ThemeContextType = {
+  mode: ThemeMode
+  setMode: (mode: ThemeMode) => void
+  cycle: () => void
+}
+
+const ThemeProviderContext = createContext<ThemeContextType>({
+  mode: 'system',
+  setMode: () => {},
+  cycle: () => {}
+})
+
+export function useTheme() {
+  return useContext(ThemeProviderContext)
+}
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [mode, setMode] = useState<ThemeMode>('system')
@@ -56,26 +72,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       {children}
     </ThemeProviderContext.Provider>
   )
-}
-
-import { createContext, useContext } from 'react'
-
-type ThemeContextType = {
-  mode: ThemeMode
-  setMode: (mode: ThemeMode) => void
-  cycle: () => void
-}
-
-const ThemeProviderContext = createContext<ThemeContextType>({
-  mode: 'system',
-  setMode: () => {},
-  cycle: () => {}
-})
-
-export function useTheme() {
-  const context = useContext(ThemeProviderContext)
-  if (!context) throw new Error('useTheme must be used within ThemeProvider')
-  return context
 }
 
 export function ThemeToggle() {
