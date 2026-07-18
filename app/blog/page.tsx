@@ -34,30 +34,47 @@ export default function BlogPage() {
             <p className="text-sm text-muted-foreground">还没有文章</p>
           </div>
         ) : (
-          <div className="grid gap-3 sm:grid-cols-2">
+          <div className="flex flex-col gap-4">
             {posts.map((post) => (
               <Link
                 key={post.slug}
                 href={`/posts/${post.slug}`}
-                className="group rounded-lg border border-border bg-card p-4 transition-all hover:border-foreground/20 hover:shadow-sm"
+                className="group flex overflow-hidden rounded-lg border border-border bg-card transition-all hover:border-foreground/20 hover:shadow-sm"
               >
-                <article className="space-y-2">
+                {/* 左侧封面图 */}
+                <div className="relative h-32 w-40 shrink-0 sm:h-36 sm:w-48">
+                  {post.cover ? (
+                    <img
+                      src={post.cover}
+                      alt={post.title}
+                      className="size-full object-cover transition-transform group-hover:scale-105"
+                    />
+                  ) : (
+                    <div className="flex size-full items-center justify-center bg-muted">
+                      <Icon icon="mdi:image-outline" className="size-10 text-muted-foreground/50" />
+                    </div>
+                  )}
+                </div>
+
+                {/* 右侧内容 */}
+                <div className="flex flex-1 flex-col justify-center p-4">
+                  {/* 日期 */}
+                  <time className="text-xs text-muted-foreground" dateTime={post.date}>
+                    {post.date}
+                  </time>
+
                   {/* 标题 */}
-                  <h2 className="font-medium leading-snug transition-colors group-hover:text-foreground/80 line-clamp-2">
+                  <h2 className="mt-1 font-semibold leading-snug transition-colors group-hover:text-foreground/80 line-clamp-1">
                     {post.title}
                   </h2>
 
-                  {/* 元数据 */}
-                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                    <time dateTime={post.date}>{post.date}</time>
-                    {post.tags && post.tags.length > 0 && (
-                      <>
-                        <span className="size-0.5 rounded-full bg-current opacity-40" />
-                        <span>{post.tags[0]}</span>
-                      </>
-                    )}
-                  </div>
-                </article>
+                  {/* 描述 */}
+                  {post.description && (
+                    <p className="mt-1.5 text-sm text-muted-foreground line-clamp-2">
+                      {post.description}
+                    </p>
+                  )}
+                </div>
               </Link>
             ))}
           </div>

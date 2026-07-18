@@ -3,6 +3,7 @@ title: "你好，世界"
 date: "2026-07-18"
 description: "这是我的第一篇博客文章，记录了博客从 SvelteKit 迁移到 Next.js 的历程。"
 tags: ["随笔", "技术"]
+cover: "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?w=800&h=400&fit=crop"
 ---
 
 ## 新的起点
