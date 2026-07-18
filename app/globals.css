@@ -145,3 +145,24 @@
 button {
   transition: all 0.2s ease;
 }
+
+/* 博客文章排版 */
+.prose pre {
+  border-radius: var(--radius-lg);
+}
+
+.prose code::before,
+.prose code::after {
+  content: "";
+}
+
+.prose code:not(pre code) {
+  background: hsl(var(--muted));
+  padding: 0.15em 0.4em;
+  border-radius: var(--radius-sm);
+  font-size: 0.875em;
+}
+
+.prose blockquote {
+  border-left-color: hsl(var(--border));
+}
