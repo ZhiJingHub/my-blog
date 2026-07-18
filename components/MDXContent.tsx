@@ -46,10 +46,10 @@ function rehypeRemoveScripts() {
 
 const rehypePrettyCodeOptions = {
   theme: {
-    dark: "github-dark",
-    light: "github-light",
+    dark: "github-dark-dimmed",
+    light: "snazzy-light",
   },
-  keepBackground: true,
+  keepBackground: false,
   defaultLang: "plaintext",
 }
 

@@ -179,63 +179,91 @@ button {
 
 /* 博客文章排版 */
 .prose pre {
+  position: relative;
   border-radius: var(--radius-lg);
   border: 1px solid hsl(var(--border));
-  padding: 1rem 0;
-  margin: 1.5rem 0;
-  background: hsl(var(--muted)) !important;
+  padding: 0;
+  margin: 1.75rem 0;
+  background: hsl(var(--muted));
+  overflow: hidden;
 }
 
-.prose pre[data-theme] {
-  background: hsl(var(--muted)) !important;
+.dark .prose pre {
+  background: oklch(0.155 0.011 260);
+  border-color: oklch(1 0 0 / 7%);
+  box-shadow:
+    0 2px 8px oklch(0 0 0 / 8%),
+    inset 0 1px 0 oklch(1 0 0 / 3%);
 }
 
-.dark .prose pre[data-theme] {
-  background: oklch(0.16 0.012 260) !important;
-  border-color: oklch(1 0 0 / 8%);
-  box-shadow: inset 0 1px 2px oklch(0 0 0 / 30%);
+/* 代码块头部：语言标签 */
+.prose pre[data-language]::before {
+  content: attr(data-language);
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: hsl(var(--muted-foreground));
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-bottom: 1px solid hsl(var(--border));
+  background: hsl(var(--muted) / 0.6);
+  font-family: var(--font-sans);
 }
 
 .dark .prose pre[data-language]::before {
-  color: oklch(0.55 0.02 260);
-  border-bottom: 1px solid oklch(1 0 0 / 5%);
-  padding-bottom: 0.6rem;
-  margin-bottom: 0.2rem;
+  color: oklch(0.5 0.015 260);
+  border-bottom-color: oklch(1 0 0 / 5%);
+  background: oklch(0.14 0.01 260);
 }
 
-/* 代码块语言标签 */
-.prose pre[data-language]::before {
-  content: attr(data-language);
+/* 代码区容器 */
+.prose pre code {
   display: block;
-  padding: 0 1rem 0.5rem;
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: hsl(var(--muted-foreground));
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  padding: 1rem 0;
+  font-size: 0.8125rem;
+  line-height: 1.75;
+  font-family: var(--font-mono);
 }
 
 /* 代码行 */
 .prose [data-line] {
   padding: 0 1rem;
   border-left: 2px solid transparent;
+  transition: background 0.15s ease;
 }
 
 .prose [data-line]:hover {
-  background: hsl(var(--accent) / 0.5);
+  background: hsl(var(--accent) / 0.4);
+}
+
+.dark .prose [data-line]:hover {
+  background: oklch(0.2 0.012 260 / 0.5);
 }
 
 /* 高亮行 */
 .prose [data-highlighted-line] {
-  background: hsl(var(--accent)) !important;
+  background: hsl(var(--accent) / 0.7) !important;
   border-left-color: hsl(var(--primary));
+}
+
+.dark .prose [data-highlighted-line] {
+  background: oklch(0.22 0.014 260 / 0.6) !important;
+  border-left-color: oklch(0.7 0.03 260);
 }
 
 /* 高亮字符 */
 .prose [data-highlighted-chars] {
   background: hsl(var(--accent));
   border-radius: var(--radius-sm);
-  padding: 0.1em 0.2em;
+  padding: 0.1em 0.25em;
+  box-shadow: 0 0 0 1px hsl(var(--border));
+}
+
+.dark .prose [data-highlighted-chars] {
+  background: oklch(0.25 0.015 260);
+  box-shadow: 0 0 0 1px oklch(1 0 0 / 8%);
 }
 
 /* 行号 */
@@ -247,18 +275,17 @@ button {
   counter-increment: line;
   content: counter(line);
   display: inline-block;
-  width: 1.5rem;
+  width: 2rem;
   margin-right: 1rem;
   text-align: right;
   color: hsl(var(--muted-foreground));
-  opacity: 0.5;
-  font-size: 0.875em;
+  opacity: 0.4;
+  font-size: 0.75rem;
+  user-select: none;
 }
 
-/* 代码块内代码 */
-.prose pre code {
-  font-size: 0.875rem;
-  line-height: 1.7;
+.dark .prose code[data-line-numbers] > [data-line]::before {
+  color: oklch(0.45 0.015 260);
 }
 
 /* 行内代码 */
@@ -269,17 +296,18 @@ button {
 
 .prose code:not(pre code) {
   background: hsl(var(--muted));
-  padding: 0.2em 0.4em;
+  padding: 0.15em 0.4em;
   border-radius: var(--radius-sm);
-  font-size: 0.875em;
+  font-size: 0.85em;
   border: 1px solid hsl(var(--border));
   font-weight: 500;
+  color: hsl(var(--foreground));
 }
 
 .dark .prose code:not(pre code) {
   background: oklch(0.2 0.012 260);
   border-color: oklch(1 0 0 / 8%);
-  box-shadow: inset 0 1px 2px oklch(0 0 0 / 15%);
+  color: oklch(0.88 0.005 260);
 }
 
 .prose blockquote {
