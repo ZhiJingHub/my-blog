@@ -1,7 +1,17 @@
 import { siteConfig } from '@/lib/config/site';
 import { escapeXml } from '@/lib/utils/xml';
+import { getAllPosts } from '@/lib/utils/posts';
 
 export async function GET() {
+  const posts = getAllPosts();
+
+  const items = posts
+    .map(
+      (post) =>
+        `<item><title>${escapeXml(post.title)}</title><link>${escapeXml(siteConfig.url + '/posts/' + post.slug)}</link><description>${escapeXml(post.description || '')}</description><pubDate>${new Date(post.date).toUTCString()}</pubDate><guid>${escapeXml(siteConfig.url + '/posts/' + post.slug)}</guid></item>`
+    )
+    .join('\n    ');
+
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
@@ -10,6 +20,7 @@ export async function GET() {
     <description>${escapeXml(siteConfig.description)}</description>
     <language>zh-CN</language>
     <atom:link href="${siteConfig.url}/rss.xml" rel="self" type="application/rss+xml"/>
+    ${items}
   </channel>
 </rss>`;
 

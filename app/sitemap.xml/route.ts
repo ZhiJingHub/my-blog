@@ -1,5 +1,6 @@
 import { siteConfig } from '@/lib/config/site';
 import { escapeXml } from '@/lib/utils/xml';
+import { getAllPosts } from '@/lib/utils/posts';
 
 export async function GET() {
   const staticPages = [
@@ -11,14 +12,20 @@ export async function GET() {
     { path: '/friends/', changefreq: 'weekly', priority: '0.5' }
   ];
 
-  const urls = staticPages.map(
+  const staticUrls = staticPages.map(
     (p) =>
       `<url><loc>${escapeXml(siteConfig.url + p.path)}</loc><changefreq>${p.changefreq}</changefreq><priority>${p.priority}</priority></url>`
   );
 
+  const posts = getAllPosts();
+  const postUrls = posts.map(
+    (post) =>
+      `<url><loc>${escapeXml(siteConfig.url + '/posts/' + post.slug)}</loc><lastmod>${post.date}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>`
+  );
+
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls.join('\n')}
+${[...staticUrls, ...postUrls].join('\n')}
 </urlset>`;
 
   return new Response(sitemap, {
