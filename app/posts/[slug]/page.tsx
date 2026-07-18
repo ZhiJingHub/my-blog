@@ -43,8 +43,8 @@ export default async function PostPage({ params }: PostPageProps) {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="container mx-auto flex max-w-5xl gap-8 px-4 py-8 sm:py-12">
-        <article className="min-w-0 max-w-3xl flex-1">
+      <div className="grid grid-cols-[1fr_minmax(0,48rem)_1fr] px-4 py-8 sm:py-12">
+        <article className="col-start-2">
           {/* 文章头部 */}
           <header className="mb-10">
             {/* 标签 */}
