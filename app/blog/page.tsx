@@ -39,7 +39,7 @@ export default function BlogPage() {
             {posts.map((post) => (
               <Link
                 key={post.slug}
-                href={`/blog/posts/${post.slug}`}
+                href={`/posts/${post.slug}`}
                 className="group relative block rounded-xl border border-border bg-card p-6 transition-all hover:border-foreground/20 hover:shadow-sm"
               >
                 <article className="flex flex-col gap-3 sm:flex-row sm:items-start sm:gap-6">

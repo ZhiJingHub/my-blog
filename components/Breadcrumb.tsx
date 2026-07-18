@@ -32,7 +32,8 @@ export default function Breadcrumb() {
     if (segment === 'blog') {
       items.push({ label: '博客', href: currentPath });
     } else if (segment === 'posts') {
-      items.push({ label: '文章', href: currentPath });
+      // /posts/[slug] 路由 - 链接到博客列表
+      items.push({ label: '博客', href: '/blog' });
     } else if (segment === 'cover') {
       items.push({ label: '封面制作', href: currentPath });
     } else if (segment === 'convert') {

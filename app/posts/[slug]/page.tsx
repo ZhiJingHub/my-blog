@@ -1,10 +1,6 @@
 import type { Metadata } from "next"
-import Link from "next/link"
 import { notFound } from "next/navigation"
 import { Badge } from "@/components/ui/badge"
-import { buttonVariants } from "@/components/ui/button"
-import { Icon } from "@iconify/react"
-import { cn } from "@/lib/utils"
 import { getPostBySlug, getAllPosts } from "@/lib/utils/posts"
 import { MDXContent } from "@/components/MDXContent"
 import { siteConfig } from "@/lib/config/site"
@@ -46,15 +42,6 @@ export default async function PostPage({ params }: PostPageProps) {
       <article className="container mx-auto max-w-3xl px-4 py-8 sm:py-12">
         {/* 文章头部 */}
         <header className="mb-10">
-          {/* 返回链接 */}
-          <Link
-            href="/blog"
-            className="mb-6 inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors"
-          >
-            <Icon icon="mdi:arrow-left" className="size-4" />
-            返回博客
-          </Link>
-
           {/* 标签 */}
           {post.tags && post.tags.length > 0 && (
             <div className="mb-4 flex flex-wrap gap-2">
@@ -78,20 +65,6 @@ export default async function PostPage({ params }: PostPageProps) {
         {/* 文章正文 */}
         <div className="prose prose-neutral max-w-none dark:prose-invert prose-headings:scroll-mt-20 prose-a:text-foreground prose-a:no-underline hover:prose-a:underline">
           <MDXContent source={post.content} />
-        </div>
-
-        {/* 底部分隔与返回 */}
-        <div className="mt-16 border-t pt-8 text-center">
-          <Link
-            href="/blog"
-            className={cn(
-              buttonVariants({ variant: "ghost" }),
-              "inline-flex items-center gap-1"
-            )}
-          >
-            <Icon icon="mdi:arrow-left" className="mr-2 size-4" />
-            返回博客列表
-          </Link>
         </div>
       </article>
     </div>
