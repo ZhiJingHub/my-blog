@@ -194,6 +194,8 @@ export default function WatermarkClient() {
           onClick={() => document.getElementById('file-input')?.click()}
           role="button"
           tabIndex={0}
+          aria-label="上传图片"
+          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); document.getElementById('file-input')?.click(); } }}
         >
           <input
             id="file-input"
@@ -328,6 +330,7 @@ export default function WatermarkClient() {
                     size="sm"
                     className="size-7 p-0 text-destructive"
                     onClick={() => removeWatermark(watermark.id)}
+                    aria-label={`删除水印 ${watermark.type === 'text' ? watermark.text : '图片'}`}
                   >
                     <Icon icon="mdi:delete" className="size-4" />
                   </Button>

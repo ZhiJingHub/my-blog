@@ -480,6 +480,8 @@ export default function ConvertClient() {
               onClick={() => document.getElementById('file-input')?.click()}
               role="button"
               tabIndex={0}
+              aria-label="上传图片"
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); document.getElementById('file-input')?.click(); } }}
             >
               <input
                 id="file-input"
@@ -592,6 +594,8 @@ export default function ConvertClient() {
                 onClick={() => document.getElementById('batch-file-input')?.click()}
                 role="button"
                 tabIndex={0}
+                aria-label="批量上传图片"
+                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); document.getElementById('batch-file-input')?.click(); } }}
               >
                 <input
                   id="batch-file-input"
@@ -653,6 +657,7 @@ export default function ConvertClient() {
                           size="sm"
                           className="size-7 p-0"
                           onClick={() => removeBatchItem(item.id)}
+                          aria-label={`移除 ${item.file.name}`}
                         >
                           <Icon icon="mdi:close" className="size-4" />
                         </Button>
@@ -1118,6 +1123,7 @@ export default function ConvertClient() {
                                 <Button
                                   variant="ghost"
                                   size="sm"
+                                  aria-label="移除水印图片"
                                   onClick={() => {
                                     if (options.watermark.imageUrl) URL.revokeObjectURL(options.watermark.imageUrl);
                                     setOptions({ ...options, watermark: { ...options.watermark, imageUrl: undefined, imageFile: undefined } });

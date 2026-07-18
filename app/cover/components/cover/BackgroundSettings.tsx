@@ -60,7 +60,7 @@ export default function BackgroundSettings({
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <Label>模糊: {bgBlur}px</Label>
-              <Button variant="destructive" size="sm" onClick={onBgImageRemove}>
+              <Button variant="destructive" size="sm" onClick={onBgImageRemove} aria-label="删除背景图片">
                 <Icon icon="mdi:delete" className="h-4 w-4" />
               </Button>
             </div>
