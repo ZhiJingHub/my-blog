@@ -34,35 +34,30 @@ export default function BlogPage() {
             <p className="text-sm text-muted-foreground">还没有文章</p>
           </div>
         ) : (
-          <div className="divide-y divide-border rounded-lg border border-border bg-card">
+          <div className="grid gap-3 sm:grid-cols-2">
             {posts.map((post) => (
               <Link
                 key={post.slug}
                 href={`/posts/${post.slug}`}
-                className="group flex items-center gap-4 px-4 py-3 transition-colors hover:bg-muted/50"
+                className="group rounded-lg border border-border bg-card p-4 transition-all hover:border-foreground/20 hover:shadow-sm"
               >
-                {/* 日期 */}
-                <time
-                  className="shrink-0 text-xs tabular-nums text-muted-foreground"
-                  dateTime={post.date}
-                >
-                  {post.date}
-                </time>
+                <article className="space-y-2">
+                  {/* 标题 */}
+                  <h2 className="font-medium leading-snug transition-colors group-hover:text-foreground/80 line-clamp-2">
+                    {post.title}
+                  </h2>
 
-                {/* 分隔点 */}
-                <span className="size-1 shrink-0 rounded-full bg-border" />
-
-                {/* 标题 */}
-                <h2 className="flex-1 truncate text-sm font-medium transition-colors group-hover:text-foreground">
-                  {post.title}
-                </h2>
-
-                {/* 标签 */}
-                {post.tags && post.tags.length > 0 && (
-                  <span className="hidden shrink-0 text-xs text-muted-foreground sm:block">
-                    {post.tags[0]}
-                  </span>
-                )}
+                  {/* 元数据 */}
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <time dateTime={post.date}>{post.date}</time>
+                    {post.tags && post.tags.length > 0 && (
+                      <>
+                        <span className="size-0.5 rounded-full bg-current opacity-40" />
+                        <span>{post.tags[0]}</span>
+                      </>
+                    )}
+                  </div>
+                </article>
               </Link>
             ))}
           </div>
