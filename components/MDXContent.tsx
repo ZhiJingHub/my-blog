@@ -3,8 +3,16 @@ import remarkGfm from "remark-gfm"
 import rehypeSlug from "rehype-slug"
 import rehypePrettyCode from "rehype-pretty-code"
 import { visit } from "unist-util-visit"
+import { CodeBlockCopy } from "@/components/CodeBlockCopy"
 
-const mdxComponents = {}
+const mdxComponents = {
+  pre: ({ children, ...props }: React.ComponentProps<"pre">) => (
+    <pre {...props} className="group">
+      <CodeBlockCopy />
+      {children}
+    </pre>
+  ),
+}
 
 interface Element {
   type: "element"
