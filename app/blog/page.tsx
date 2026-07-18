@@ -57,20 +57,20 @@ export default function BlogPage() {
                 </div>
 
                 {/* 右侧内容 */}
-                <div className="flex flex-1 flex-col justify-center p-4">
+                <div className="flex flex-1 flex-col justify-center px-5 py-4">
                   {/* 日期 */}
-                  <time className="text-xs text-muted-foreground" dateTime={post.date}>
+                  <time className="text-xs font-medium text-muted-foreground" dateTime={post.date}>
                     {post.date}
                   </time>
 
                   {/* 标题 */}
-                  <h2 className="mt-1 font-semibold leading-snug transition-colors group-hover:text-foreground/80 line-clamp-1">
+                  <h2 className="mt-2 text-base font-bold leading-tight tracking-tight transition-colors group-hover:text-foreground/70 line-clamp-2">
                     {post.title}
                   </h2>
 
                   {/* 描述 */}
                   {post.description && (
-                    <p className="mt-1.5 text-sm text-muted-foreground line-clamp-2">
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground line-clamp-2">
                       {post.description}
                     </p>
                   )}
