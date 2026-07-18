@@ -5,7 +5,8 @@ import { Badge } from "@/components/ui/badge"
 import { buttonVariants } from "@/components/ui/button"
 import { Icon } from "@iconify/react"
 import { cn } from "@/lib/utils"
-import { getPostBySlug, getAllPosts, renderMarkdown } from "@/lib/utils/posts"
+import { getPostBySlug, getAllPosts } from "@/lib/utils/posts"
+import { MDXContent } from "@/components/MDXContent"
 import { siteConfig } from "@/lib/config/site"
 
 type PostPageProps = {
@@ -39,8 +40,6 @@ export default async function PostPage({ params }: PostPageProps) {
   const post = getPostBySlug(slug)
 
   if (!post) notFound()
-
-  const html = await renderMarkdown(post.content)
 
   return (
     <div className="min-h-screen bg-background">
@@ -77,10 +76,9 @@ export default async function PostPage({ params }: PostPageProps) {
         </header>
 
         {/* 文章正文 */}
-        <div
-          className="prose prose-neutral max-w-none dark:prose-invert prose-headings:scroll-mt-20 prose-a:text-foreground prose-a:no-underline hover:prose-a:underline prose-pre:bg-muted prose-pre:border"
-          dangerouslySetInnerHTML={{ __html: html }}
-        />
+        <div className="prose prose-neutral max-w-none dark:prose-invert prose-headings:scroll-mt-20 prose-a:text-foreground prose-a:no-underline hover:prose-a:underline">
+          <MDXContent source={post.content} />
+        </div>
 
         {/* 底部分隔与返回 */}
         <div className="mt-16 border-t pt-8 text-center">

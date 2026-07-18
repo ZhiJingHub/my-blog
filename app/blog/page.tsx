@@ -1,6 +1,5 @@
 import type { Metadata } from "next"
 import Link from "next/link"
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { buttonVariants } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Icon } from "@iconify/react"
@@ -24,60 +23,67 @@ export default function BlogPage() {
     <div className="min-h-screen bg-background">
       <div className="container mx-auto max-w-4xl px-4 py-8 sm:py-12">
         {/* 标题区域 */}
-        <div className="mb-10 text-center">
+        <div className="mb-10">
           <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">博客</h1>
           <p className="mt-2 text-muted-foreground">记录技术思考与成长历程</p>
         </div>
 
         {/* 文章列表 */}
         {posts.length === 0 ? (
-          <Card className="relative overflow-hidden">
-            <CardHeader className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
-              <CardTitle className="text-center text-5xl font-black tracking-widest text-foreground/[0.06] dark:text-foreground/[0.08] select-none">
-                空
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="relative z-10 flex flex-col items-center gap-4 py-16">
-              <Icon icon="mdi:file-document-outline" className="size-12 text-muted-foreground" />
-              <p className="text-muted-foreground">还没有文章，敬请期待</p>
-            </CardContent>
-          </Card>
+          <div className="flex flex-col items-center gap-4 rounded-xl border border-border bg-card py-16">
+            <Icon icon="mdi:file-document-outline" className="size-12 text-muted-foreground" />
+            <p className="text-muted-foreground">还没有文章，敬请期待</p>
+          </div>
         ) : (
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-3">
             {posts.map((post) => (
-              <Card key={post.slug} className="group relative overflow-hidden transition-shadow hover:shadow-md">
-                <CardContent className="p-6">
-                  <Link href={`/blog/posts/${post.slug}`} className="block">
-                    <article>
-                      {/* 日期 */}
-                      <time className="text-sm text-muted-foreground" dateTime={post.date}>
-                        {post.date}
-                      </time>
+              <Link
+                key={post.slug}
+                href={`/blog/posts/${post.slug}`}
+                className="group relative block rounded-xl border border-border bg-card p-6 transition-all hover:border-foreground/20 hover:shadow-sm"
+              >
+                <article className="flex flex-col gap-3 sm:flex-row sm:items-start sm:gap-6">
+                  {/* 日期 */}
+                  <time
+                    className="shrink-0 text-sm tabular-nums text-muted-foreground sm:w-24 sm:pt-0.5"
+                    dateTime={post.date}
+                  >
+                    {post.date}
+                  </time>
 
-                      {/* 标题 */}
-                      <h2 className="mt-1 text-xl font-semibold tracking-tight group-hover:text-foreground/80 transition-colors">
-                        {post.title}
-                      </h2>
+                  {/* 内容 */}
+                  <div className="flex-1 space-y-2">
+                    {/* 标题 */}
+                    <h2 className="text-lg font-semibold tracking-tight transition-colors group-hover:text-foreground/80">
+                      {post.title}
+                    </h2>
 
-                      {/* 描述 */}
-                      {post.description && (
-                        <p className="mt-2 text-muted-foreground line-clamp-2">{post.description}</p>
-                      )}
+                    {/* 描述 */}
+                    {post.description && (
+                      <p className="text-sm text-muted-foreground line-clamp-2">{post.description}</p>
+                    )}
 
-                      {/* 标签 */}
-                      {post.tags && post.tags.length > 0 && (
-                        <div className="mt-3 flex flex-wrap gap-2">
-                          {post.tags.map((tag) => (
-                            <Badge key={tag} variant="secondary" className="text-xs">
-                              {tag}
-                            </Badge>
-                          ))}
-                        </div>
-                      )}
-                    </article>
-                  </Link>
-                </CardContent>
-              </Card>
+                    {/* 标签 */}
+                    {post.tags && post.tags.length > 0 && (
+                      <div className="flex flex-wrap gap-1.5 pt-1">
+                        {post.tags.map((tag) => (
+                          <Badge key={tag} variant="secondary" className="text-xs">
+                            {tag}
+                          </Badge>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* 箭头 */}
+                  <div className="hidden shrink-0 items-center sm:flex">
+                    <Icon
+                      icon="mdi:arrow-right"
+                      className="size-5 text-muted-foreground transition-transform group-hover:translate-x-1 group-hover:text-foreground"
+                    />
+                  </div>
+                </article>
+              </Link>
             ))}
           </div>
         )}

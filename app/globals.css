@@ -149,6 +149,45 @@ button {
 /* 博客文章排版 */
 .prose pre {
   border-radius: var(--radius-lg);
+  border: 1px solid hsl(var(--border));
+}
+
+.prose pre[data-theme] {
+  background-color: hsl(var(--muted)) !important;
+}
+
+.dark .prose pre[data-theme] {
+  background-color: hsl(var(--muted)) !important;
+}
+
+.prose code[data-line-numbers] {
+  counter-reset: line;
+}
+
+.prose code[data-line-numbers] > [data-line]::before {
+  counter-increment: line;
+  content: counter(line);
+  display: inline-block;
+  width: 1.5rem;
+  margin-right: 1rem;
+  text-align: right;
+  color: hsl(var(--muted-foreground));
+  opacity: 0.6;
+}
+
+.prose [data-line] {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.prose [data-highlighted-line] {
+  background-color: hsl(var(--accent));
+}
+
+.prose [data-highlighted-chars] {
+  background-color: hsl(var(--accent));
+  border-radius: var(--radius-sm);
+  padding: 0.1em 0.2em;
 }
 
 .prose code::before,
@@ -161,6 +200,7 @@ button {
   padding: 0.15em 0.4em;
   border-radius: var(--radius-sm);
   font-size: 0.875em;
+  border: 1px solid hsl(var(--border));
 }
 
 .prose blockquote {

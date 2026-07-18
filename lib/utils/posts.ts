@@ -1,12 +1,6 @@
 import fs from "fs"
 import path from "path"
 import matter from "gray-matter"
-import { unified } from "unified"
-import remarkParse from "remark-parse"
-import remarkGfm from "remark-gfm"
-import remarkRehype from "remark-rehype"
-import rehypeSlug from "rehype-slug"
-import rehypeStringify from "rehype-stringify"
 import type { Post, PostMeta } from "@/lib/types/post"
 
 const postsDir = path.join(process.cwd(), "content", "posts")
@@ -39,14 +33,7 @@ export function getPostBySlug(slug: string): Post | null {
   }
 }
 
-export async function renderMarkdown(source: string): Promise<string> {
-  const result = await unified()
-    .use(remarkParse)
-    .use(remarkGfm)
-    .use(remarkRehype, { allowDangerousHtml: true })
-    .use(rehypeSlug)
-    .use(rehypeStringify, { allowDangerousHtml: true })
-    .process(source)
-
-  return result.toString()
+export function isMdxFile(slug: string): boolean {
+  const mdxPath = path.join(postsDir, `${slug}.mdx`)
+  return fs.existsSync(mdxPath)
 }
