@@ -67,12 +67,6 @@ export default function RootLayout({
           data-website-id={siteConfig.analytics.umami.websiteId}
           strategy="afterInteractive"
         />
-        {/* 主题初始化：阻塞渲染前设置 dark 类，防止页面切换闪屏 */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem("theme");if(t==="dark"||(t==="system"&&matchMedia("(prefers-color-scheme:dark)").matches)){document.documentElement.classList.add("dark");document.documentElement.setAttribute("data-theme","dark");var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute("content","#1a1b22")}}catch(e){}})()`,
-          }}
-        />
       </head>
       <body className="min-h-full flex flex-col">
         <ThemeProvider>
