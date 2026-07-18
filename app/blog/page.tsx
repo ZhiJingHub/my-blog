@@ -1,7 +1,6 @@
 import type { Metadata } from "next"
 import Link from "next/link"
 import { buttonVariants } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 import { Icon } from "@iconify/react"
 import { cn } from "@/lib/utils"
 import { getAllPosts } from "@/lib/utils/posts"
@@ -30,59 +29,40 @@ export default function BlogPage() {
 
         {/* 文章列表 */}
         {posts.length === 0 ? (
-          <div className="flex flex-col items-center gap-4 rounded-xl border border-border bg-card py-16">
-            <Icon icon="mdi:file-document-outline" className="size-12 text-muted-foreground" />
-            <p className="text-muted-foreground">还没有文章，敬请期待</p>
+          <div className="flex flex-col items-center gap-3 rounded-lg border border-border bg-card py-12">
+            <Icon icon="mdi:file-document-outline" className="size-10 text-muted-foreground" />
+            <p className="text-sm text-muted-foreground">还没有文章</p>
           </div>
         ) : (
-          <div className="flex flex-col gap-3">
+          <div className="divide-y divide-border rounded-lg border border-border bg-card">
             {posts.map((post) => (
               <Link
                 key={post.slug}
                 href={`/posts/${post.slug}`}
-                className="group relative block rounded-xl border border-border bg-card p-6 transition-all hover:border-foreground/20 hover:shadow-sm"
+                className="group flex items-center gap-4 px-4 py-3 transition-colors hover:bg-muted/50"
               >
-                <article className="flex flex-col gap-3 sm:flex-row sm:items-start sm:gap-6">
-                  {/* 日期 */}
-                  <time
-                    className="shrink-0 text-sm tabular-nums text-muted-foreground sm:w-24 sm:pt-0.5"
-                    dateTime={post.date}
-                  >
-                    {post.date}
-                  </time>
+                {/* 日期 */}
+                <time
+                  className="shrink-0 text-xs tabular-nums text-muted-foreground"
+                  dateTime={post.date}
+                >
+                  {post.date}
+                </time>
 
-                  {/* 内容 */}
-                  <div className="flex-1 space-y-2">
-                    {/* 标题 */}
-                    <h2 className="text-lg font-semibold tracking-tight transition-colors group-hover:text-foreground/80">
-                      {post.title}
-                    </h2>
+                {/* 分隔点 */}
+                <span className="size-1 shrink-0 rounded-full bg-border" />
 
-                    {/* 描述 */}
-                    {post.description && (
-                      <p className="text-sm text-muted-foreground line-clamp-2">{post.description}</p>
-                    )}
+                {/* 标题 */}
+                <h2 className="flex-1 truncate text-sm font-medium transition-colors group-hover:text-foreground">
+                  {post.title}
+                </h2>
 
-                    {/* 标签 */}
-                    {post.tags && post.tags.length > 0 && (
-                      <div className="flex flex-wrap gap-1.5 pt-1">
-                        {post.tags.map((tag) => (
-                          <Badge key={tag} variant="secondary" className="text-xs">
-                            {tag}
-                          </Badge>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-
-                  {/* 箭头 */}
-                  <div className="hidden shrink-0 items-center sm:flex">
-                    <Icon
-                      icon="mdi:arrow-right"
-                      className="size-5 text-muted-foreground transition-transform group-hover:translate-x-1 group-hover:text-foreground"
-                    />
-                  </div>
-                </article>
+                {/* 标签 */}
+                {post.tags && post.tags.length > 0 && (
+                  <span className="hidden shrink-0 text-xs text-muted-foreground sm:block">
+                    {post.tags[0]}
+                  </span>
+                )}
               </Link>
             ))}
           </div>
