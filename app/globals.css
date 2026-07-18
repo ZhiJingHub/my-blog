@@ -205,26 +205,81 @@ button {
   color: var(--shiki-dark);
 }
 
-/* 代码块头部：语言标签 */
-.prose pre[data-language]::before {
-  content: attr(data-language);
+/* 代码块头部：语言标签 + 复制按钮 */
+.code-header {
   display: flex;
   align-items: center;
-  padding: 0.5rem 1rem;
+  justify-content: space-between;
+  padding: 0.45rem 0.75rem 0.45rem 1rem;
+  border-bottom: 1px solid var(--border);
+  background: color-mix(in oklch, var(--muted) 50%, transparent);
+}
+
+.dark .code-header {
+  background: oklch(0.14 0.01 260);
+  border-bottom-color: oklch(1 0 0 / 5%);
+}
+
+.code-header--no-lang {
+  padding: 0.25rem 0.75rem 0.25rem 1rem;
+  border-bottom: none;
+  background: transparent;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 10;
+}
+
+.code-header--no-lang .code-header-copy {
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.group:hover .code-header--no-lang .code-header-copy {
+  opacity: 1;
+}
+
+/* 三个小圆点 */
+.code-header-dots {
+  display: inline-flex;
+  gap: 5px;
+}
+
+.code-header-dots i {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  display: block;
+}
+
+.code-header-dots i:nth-child(1) {
+  background: #ff5f57;
+}
+
+.code-header-dots i:nth-child(2) {
+  background: #febc2e;
+}
+
+.code-header-dots i:nth-child(3) {
+  background: #28c840;
+}
+
+.dark .code-header-dots i {
+  opacity: 0.7;
+}
+
+/* 语言名称 */
+.code-header-lang {
   font-size: 0.7rem;
   font-weight: 600;
-  color: var(--muted-foreground);
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  border-bottom: 1px solid var(--border);
-  background: color-mix(in oklch, var(--muted) 60%, transparent);
+  color: var(--muted-foreground);
   font-family: var(--font-sans);
 }
 
-.dark .prose pre[data-language]::before {
+.dark .code-header-lang {
   color: oklch(0.5 0.015 260);
-  border-bottom-color: oklch(1 0 0 / 5%);
-  background: oklch(0.14 0.01 260);
 }
 
 /* 代码区容器 */

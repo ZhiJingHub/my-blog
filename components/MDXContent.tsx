@@ -6,12 +6,30 @@ import { visit } from "unist-util-visit"
 import { CodeBlockCopy } from "@/components/CodeBlockCopy"
 
 const mdxComponents = {
-  pre: ({ children, ...props }: React.ComponentProps<"pre">) => (
-    <pre {...props} className="group">
-      <CodeBlockCopy />
-      {children}
-    </pre>
-  ),
+  pre: ({ children, ...props }: React.ComponentProps<"pre"> & Record<string, unknown>) => {
+    const lang = props["data-language"] as string | undefined
+    return (
+      <pre {...props} className="group">
+        {lang ? (
+          <div className="code-header">
+            <div className="flex items-center gap-2">
+              <span className="code-header-dots">
+                <i /><i /><i />
+              </span>
+              <span className="code-header-lang">{lang}</span>
+            </div>
+            <CodeBlockCopy />
+          </div>
+        ) : (
+          <div className="code-header code-header--no-lang">
+            <span />
+            <CodeBlockCopy />
+          </div>
+        )}
+        {children}
+      </pre>
+    )
+  },
 }
 
 interface Element {
