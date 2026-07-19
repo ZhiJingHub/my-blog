@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
@@ -71,7 +72,9 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <ThemeProvider>
           <Breadcrumb />
-          {children}
+          <Suspense>
+            {children}
+          </Suspense>
         </ThemeProvider>
       </body>
     </html>

@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import { Suspense } from "react"
 import { notFound } from "next/navigation"
 import { Badge } from "@/components/ui/badge"
 import { getPostBySlug, getAllPosts } from "@/lib/utils/posts"
@@ -12,7 +13,9 @@ type PostPageProps = {
 }
 
 export async function generateStaticParams() {
-  return getAllPosts().map((post) => ({ slug: post.slug }))
+  const slugs = getAllPosts().map((post) => ({ slug: post.slug }))
+  // cacheComponents 要求 generateStaticParams 至少返回一个结果
+  return slugs.length > 0 ? slugs : [{ slug: "_empty" }]
 }
 
 export async function generateMetadata({ params }: PostPageProps): Promise<Metadata> {
@@ -69,7 +72,9 @@ export default async function PostPage({ params }: PostPageProps) {
 
           {/* 文章正文 */}
           <div className="prose prose-neutral max-w-none dark:prose-invert prose-headings:scroll-mt-20 prose-a:text-foreground prose-a:no-underline hover:prose-a:underline">
-            <MDXContent source={post.content} />
+            <Suspense fallback={<div className="flex items-center gap-2 text-sm text-muted-foreground"><div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />加载中...</div>}>
+              <MDXContent source={post.content} />
+            </Suspense>
           </div>
         </article>
 

@@ -2,8 +2,6 @@ import { siteConfig } from '@/lib/config/site';
 import { escapeXml } from '@/lib/utils/xml';
 import { getAllPosts } from '@/lib/utils/posts';
 
-export const dynamic = 'force-static';
-
 export async function GET() {
   const posts = getAllPosts();
 
