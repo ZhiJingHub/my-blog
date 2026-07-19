@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/pagination';
 import { Icon } from '@iconify/react';
 import { siteConfig } from '@/lib/config/site';
-import type { FriendLink } from '@/lib/types/friend';
+import type { FriendLink } from '@/lib/utils/friends';
 
 type FriendsClientProps = {
   friends: FriendLink[];

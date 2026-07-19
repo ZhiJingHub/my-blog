@@ -1,22 +1,8 @@
-import fs from 'fs';
-import path from 'path';
-import { cache } from 'react';
-import type { FriendLink } from '@/lib/types/friend';
+import { friends } from "@/.velite"
 
-export const getAllFriends = cache((): FriendLink[] => {
-  const friendsDir = path.join(process.cwd(), 'data', 'friends');
+export type FriendLink = (typeof friends)[number]
 
-  if (!fs.existsSync(friendsDir)) {
-    return [];
-  }
-
-  const files = fs.readdirSync(friendsDir).filter((file) => file.endsWith('.json'));
-
-  const friends: FriendLink[] = files.map((file) => {
-    const filePath = path.join(friendsDir, file);
-    const content = fs.readFileSync(filePath, 'utf-8');
-    return JSON.parse(content) as FriendLink;
-  });
-
-  return friends.sort((a, b) => a.name.localeCompare(b.name, 'zh-CN'));
-});
+// velite 在构建时将 JSON 文件打包为类型安全的数据集合
+export function getAllFriends(): FriendLink[] {
+  return [...friends].sort((a, b) => a.name.localeCompare(b.name, "zh-CN"))
+}

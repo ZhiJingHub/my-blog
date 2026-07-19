@@ -1,5 +1,3 @@
-import fs from "fs"
-import path from "path"
 import GithubSlugger from "github-slugger"
 
 export interface TocItem {

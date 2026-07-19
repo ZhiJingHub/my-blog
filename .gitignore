@@ -40,6 +40,9 @@ yarn-error.log*
 .open-next
 .dev.vars
 
+# velite (构建时生成的内容集合)
+.velite
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

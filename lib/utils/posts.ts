@@ -1,35 +1,15 @@
-import fs from "fs"
-import path from "path"
-import matter from "gray-matter"
 import { cache } from "react"
-import type { Post, PostMeta } from "@/lib/types/post"
+import { posts } from "@/.velite"
 
-const postsDir = path.join(process.cwd(), "content", "posts")
+export type Post = (typeof posts)[number]
 
-export const getAllPosts = cache((): Post[] => {
-  if (!fs.existsSync(postsDir)) return []
-
-  return fs
-    .readdirSync(postsDir)
-    .filter((f) => f.endsWith(".md") || f.endsWith(".mdx"))
-    .map((file) => getPostBySlug(file.replace(/\.mdx?$/, "")))
-    .filter((post): post is Post => post !== null && !post.draft)
+// velite 在构建时将 Markdown/MDX 解析为类型安全的内容集合
+export const getAllPosts = cache(() => {
+  return posts
+    .filter((post) => !post.draft)
     .sort((a, b) => (a.date > b.date ? -1 : 1))
 })
 
-export const getPostBySlug = cache((slug: string): Post | null => {
-  const mdPath = path.join(postsDir, `${slug}.md`)
-  const mdxPath = path.join(postsDir, `${slug}.mdx`)
-  const filePath = fs.existsSync(mdPath) ? mdPath : fs.existsSync(mdxPath) ? mdxPath : null
-
-  if (!filePath) return null
-
-  const raw = fs.readFileSync(filePath, "utf-8")
-  const { data, content } = matter(raw)
-
-  return {
-    slug,
-    content,
-    ...(data as PostMeta),
-  }
+export const getPostBySlug = cache((slug: string) => {
+  return posts.find((post) => post.slug === slug) ?? null
 })

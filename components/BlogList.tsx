@@ -4,7 +4,7 @@ import { useState, useMemo, useEffect, useRef } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { Icon } from "@iconify/react"
-import type { Post } from "@/lib/types/post"
+import type { Post } from "@/lib/utils/posts"
 
 function highlightText(text: string, query: string) {
   if (!query) return text
