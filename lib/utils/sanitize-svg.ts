@@ -1,10 +1,9 @@
-// SVG 消毒：移除可能执行脚本的危险元素和属性
+import DOMPurify from "isomorphic-dompurify";
+
+// 使用 DOMPurify 消毒 SVG，保留 SVG 元素但移除所有脚本执行向量
 export function sanitizeSvg(svg: string): string {
-  return svg
-    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
-    .replace(/<foreignObject\b[^<]*(?:(?!<\/foreignObject>)<[^<]*)*<\/foreignObject>/gi, '')
-    .replace(/\s(?:on\w+)\s*=\s*"[^"]*"/gi, '')
-    .replace(/\s(?:on\w+)\s*=\s*'[^']*'/gi, '')
-    .replace(/<use\b[^>]*>/gi, '')
-    .replace(/javascript\s*:/gi, '');
+  return DOMPurify.sanitize(svg, {
+    USE_PROFILES: { svg: true, svgFilters: true },
+    FORBID_TAGS: ["use", "foreignObject"],
+  });
 }
